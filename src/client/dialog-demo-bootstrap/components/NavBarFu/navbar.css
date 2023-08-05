@@ -1,0 +1,16 @@
+.itemNavbar{
+    color: #b5b5b5!important;
+    text-decoration: none!important;
+
+}
+
+.itemNavbar:hover{
+    color: #f5f5f5!important;
+    text-decoration: none!important ;
+}
+
+.itemNavbar:active{
+    color: #f5f5f5!important;
+    text-decoration: none!important ;
+    /* background-color: red; */
+}

@@ -1,0 +1,52 @@
+.child {
+    width: 400px;
+    height: 500px;
+    background-color: #FBF7F4;
+
+    border-radius: 10px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pageBackground {
+    background-color: #33669C;
+}
+
+.imagem {
+    max-width: 200px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    margin: 0 !important;
+}
+
+.noMaginPadin {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.texto-fino {
+    font-weight: 300;
+}
+
+.corBotao {
+    border-color: #33669C !important;
+    color: #33669C !important;
+}
+
+.corBotao:hover {
+    background-color: #33669C !important;
+    color: #FBF7F4 !important;
+}
+
+.tamanhoBotaoPequeno{
+    width: 100px!important;
+    height: auto!important;
+}
+
+.textoVermelho{
+    color: #9e1b1b!important;
+}

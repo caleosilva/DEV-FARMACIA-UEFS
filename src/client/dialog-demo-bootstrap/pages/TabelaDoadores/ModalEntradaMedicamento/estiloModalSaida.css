@@ -1,0 +1,19 @@
+.botaoRedondo{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.inputQuantidade{
+    width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    background-color: #FBF7F4;
+}
+
+.custom-tooltip .tooltip-inner {
+    background-color: #6c757d;
+    color: #ffffff; 
+    font-size: 14px;
+    border-radius: 10px;
+  }
