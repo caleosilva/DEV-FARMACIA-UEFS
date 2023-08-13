@@ -64,6 +64,14 @@ export default function ModalAtualizarInfomacoesEstoque({ remedio, listaDD, data
         setAvisoIncompleto(false);
     };
     const handleShow = () => {
+        setLote(remedio.lote);
+        setDosagem(remedio.dosagem);
+        setValidade(remedio.validade);
+        setOrigem(remedio.origem)
+        setTipo(remedio.tipo);
+        setFabricante(remedio.fabricante);
+        setMotivoDoacao(remedio.motivoDoacao);
+        
         setAlterado(false);
         setShow(true)
     };
@@ -153,7 +161,7 @@ export default function ModalAtualizarInfomacoesEstoque({ remedio, listaDD, data
                 setMensagem(false);
                 handleClose();
             } else {
-                const dadosMedicamentoEspecifico = new MedicamentoEspecifico(remedio.chaveMedicamentoGeral, remedio.chaveMedicamentoEspecifico, lote, dosagem, validade, quantidade, origem, tipo, fabricante, motivoDoacao, dataEntrada, remedio.chaveGeral);
+                const dadosMedicamentoEspecifico = new MedicamentoEspecifico(remedio.chaveMedicamentoGeral, remedio.chaveMedicamentoEspecifico, lote, dosagem, validade, quantidade, origem, tipo, fabricante, motivoDoacao, dataEntrada);
 
                 if (isLoading) {
 

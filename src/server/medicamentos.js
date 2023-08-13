@@ -1,5 +1,6 @@
 import idSheet from './env';
 import formatarData from '../client/dialog-demo-bootstrap/Functions/formatarData';
+import gerarHashCode from '../client/dialog-demo-bootstrap/Functions/gerarHashCode';
 
 
 const realizarQuery = (nomeDaAba, primeiraCol, ultimaCol, consulta) => {
@@ -119,20 +120,6 @@ const atualizarChaveMedicamentoGeralNoEstoque = (chaveMedicamentoGeral, novaChav
     }
 }
 
-// const atualizarChaveMedicamentoGeralNoMedicamentoEspecifico = (chaveMedicamentoGeral, novaChaveMedicamentoGeral) => {
-//     var wsn = ss.getSheetByName("MedicamentoEspecifico");
-//     var dados = buscaBinariaCompleta(idSheet, "MedicamentoEspecifico", chaveMedicamentoGeral, 0);
-
-//     for (let i = 0; i < dados.length; i++) {
-//         var novaChaveGeralEstoque = novaChaveMedicamentoGeral + '#' + dados[i].data[1];
-
-//         wsn.getRange("A" + parseInt(dados[i].linha)).setValue(novaChaveMedicamentoGeral);
-//         wsn.getRange("L" + parseInt(dados[i].linha)).setValue(novaChaveGeralEstoque);
-
-//     }
-//     ordenarPlanilha('MedicamentoEspecifico', 12);
-// }
-
 export const encontrarMedicamentoTabelaMedicamentos = (chaveDeBusca) => {
     var sql = "select * where A = '" + chaveDeBusca + "'";
     var dados = realizarQuery('Medicamentos', 'A', 'G', sql)
@@ -140,11 +127,9 @@ export const encontrarMedicamentoTabelaMedicamentos = (chaveDeBusca) => {
     if (dados[0][0] === '#N/A') {
         return false;
     } else {
-        // var remedio = new MedicamentoGeral(data[0][0], data[0][1], data[0][2], data[0][3], data[0][4], data[0][5], data[0][6]);
         var informacoes = [];
 
         for (let i = 0; i < dados.length; i++) {
-            // var remedio = new MedicamentoGeral(data[i][0], data[i][1], data[i][2], data[i][3], data[i][4], data[i][5], data[i][6]);
             var remedio = {
                 chaveGeral: dados[i][0],
                 dataCadastro: dados[i][1],
@@ -184,47 +169,13 @@ export const getMedicamentos = () => {
                     "quantidadeTotal": data[i][7],
                     "validadeMaisProxima": data[i][8]
                 }
-                informacoes.push(remedio)
+                informacoes.push(remedio);
             }
-
             return JSON.stringify(informacoes);
         }
     } else {
-        return false
+        return false;
     }
-}
-
-export const getInformacoesMedicamentos = () => {
-    var ss = SpreadsheetApp.openById(idSheet);
-    var ws = ss.getSheetByName("InformacoesMedicamentos");
-    var data = ws.getRange(2, 1, ws.getLastRow() - 1, 5).getValues();
-
-    var informacoes = [];
-
-    let classes = []
-    let tiposMedicamentos = []
-    let tarja = []
-    let apresentacao = []
-    let motivoDescarte = []
-
-    for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data[i].length; j++) {
-
-            if (data[i][j].length > 0 && j == 0) {
-                classes.push(data[i][j]);
-            } else if (data[i][j].length > 0 && j == 1) {
-                tiposMedicamentos.push(data[i][j]);
-            } else if (data[i][j].length > 0 && j == 2) {
-                tarja.push(data[i][j]);
-            } else if (data[i][j].length > 0 && j == 3) {
-                apresentacao.push(data[i][j]);
-            } else if (data[i][j].length > 0 && j == 4) {
-                motivoDescarte.push(data[i][j]);
-            }
-        }
-    }
-    informacoes.push(classes, tiposMedicamentos, tarja, apresentacao, motivoDescarte)
-    return JSON.stringify(informacoes);
 }
 
 export const appendRowMedicamentos = (medicamento) => {
@@ -250,7 +201,7 @@ export const appendRowMedicamentos = (medicamento) => {
             formatarData(medicamento.validadeMaisProxima),
             medicamento.chaveUsuario
         ]);
-        ordenarPlanilha("Medicamentos", 1)
+        ordenarPlanilha("Medicamentos", 1);
         return true;
     }
 }
@@ -260,7 +211,8 @@ export const updateRowMedicamentos = (medicamento) => {
     var ws = ss.getSheetByName("Medicamentos");
 
     // Formatanto a data e pegando novo código
-    var novaChaveGeral = (medicamento.nome + '#' + medicamento.principioAtivo + '#' + medicamento.apresentacao).toString().toLowerCase().replace(/\s+/g, '');
+    var novaChaveGeralStr = (medicamento.nome + '#' + medicamento.principioAtivo + '#' + medicamento.apresentacao).toString().toLowerCase().replace(/\s+/g, '');
+    var novaChaveGeral = gerarHashCode(novaChaveGeralStr);
 
     // Lista com os novos dados:
     var novosDados = [];
@@ -300,12 +252,11 @@ export const updateRowMedicamentos = (medicamento) => {
             var dados = buscaBinariaCompleta(idSheet, "MedicamentoEspecifico", chaveMedicamentoOriginal, 0);
 
             for (let i = 0; i < dados.length; i++) {
-                var novaChaveGeralEstoque = novaChaveGeral + '#' + dados[i].data[1];
+                // chaveGeral no medicamento especifico parou de existir.
                 wsn.getRange("A" + parseInt(dados[i].linha)).setValue(novaChaveGeral);
-                wsn.getRange("L" + parseInt(dados[i].linha)).setValue(novaChaveGeralEstoque);
 
             }
-            ordenarPlanilha('MedicamentoEspecifico', 12);
+            ordenarPlanilha('MedicamentoEspecifico', 1);
 
             // Atualização em estoque:
             atualizarChaveMedicamentoGeralNoEstoque(medicamento.chaveGeral, novaChaveGeral);

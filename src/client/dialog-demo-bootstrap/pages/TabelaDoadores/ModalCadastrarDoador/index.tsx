@@ -212,7 +212,7 @@ export default function ModalCadastarDoador({ data, setData, listaDD }: { data: 
         } else if ((nome !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && cnpj.length === 18) && (tipoDoador === "Pessoa jurídica")) {
             setIsFormValid(true);
             setAvisoIncompleto(false);
-        } else if ((nome !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && cpf.length === 14 && dataNascimento !== '' && dataNascimento !== '-' && sexo !== '' && sexo !== '-' && estadoCivil !== '' && estadoCivil !== '-' && identidadeGenero !== '') && (tipoDoador === "Pessoa física")) {
+        } else if ((nome !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && cpf.length >= 13 && dataNascimento !== '' && dataNascimento !== '-' && sexo !== '' && sexo !== '-' && estadoCivil !== '' && estadoCivil !== '-' && identidadeGenero !== '') && (tipoDoador === "Pessoa física")) {
             setIsFormValid(true);
             setAvisoIncompleto(false);
         } else {

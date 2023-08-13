@@ -122,22 +122,31 @@ export default function TabelaEstoque() {
                                     : item.lote.toLowerCase().includes(busca.toLowerCase()) ||
                                     item.dosagem.toLowerCase().includes(busca.toLowerCase())
 
-                            }).map((medicamento, index) => (
-                                <tr key={index}>
-                                    <td>{medicamento.lote}</td>
-                                    {/* <td>{formatarDataParaVisualizacao(medicamento.validade)}</td> */}
-                                    {renderDataFormatada(medicamento.validade)}
-                                    <td>{medicamento.dosagem}</td>
-                                    <td>{medicamento.quantidade}</td>
-                                    <td>
-                                        <OperacoesEstoque remedio={medicamento} listaDD={infoDD} data={data} setData={setData} index={index} />
-                                    </td>
-                                </tr>)) : ''}
+                            }).map((medicamento, index) => {
+                                return renderInformacoes(medicamento, index);
+                            }) : ''}
                         </>
                     </tbody>
                 </Table>
             )
         }
+    }
+
+    function renderInformacoes(medicamento, index) {
+
+        const indiceReal = data.findIndex((item) => item === medicamento); // Encontrar o índice real do item
+
+        return (
+            <tr key={index}>
+                <td>{medicamento.lote}</td>
+                {renderDataFormatada(medicamento.validade)}
+                <td>{medicamento.dosagem}</td>
+                <td>{medicamento.quantidade}</td>
+                <td>
+                    <OperacoesEstoque remedio={medicamento} listaDD={infoDD} data={data} setData={setData} index={indiceReal} />
+                </td>
+            </tr>
+        )
     }
 
     function converterParaData(dateStr) {

@@ -16,7 +16,6 @@ export default function Home() {
     const [primeiraEtapa, setPrimeiraEtapa] = useState(false);
     const [segundaEtapa, setSegundaEtapa] = useState(false);
 
-
     useEffect(() => {
         if (iniciar) {
             console.log("Começando em medicamentos.")
@@ -74,7 +73,9 @@ export default function Home() {
     }, [segundaEtapa]);
 
     const handleClick = () => {
-        console.log("Funfou?")
+        // setIniciar(true);
+        console.log("Tem que descomentar pra fazer funcionar");
+        setIniciar(false);
     }
 
 

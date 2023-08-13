@@ -12,6 +12,7 @@ import InputSelect from '../../../components/InputSelect';
 import { serverFunctions } from '../../../../utils/serverFunctions';
 import MedicamentoGeral from '../../../../../models/MedicamentoGeral';
 import dataHojeFormatada from '../../../Functions/dataHojeFormatada';
+import gerarHashCode from '../../../Functions/gerarHashCode';
 
 import React, { useEffect, useContext } from 'react';
 import { useState, useRef } from 'react';
@@ -129,7 +130,9 @@ function MedModalCadastrar({ data, setData, listaDD }: { data: Array<Medicamento
         if (isFormValid) {
             const dataCadastro = dataHojeFormatada();
 
-            const chaveGeral = (nome + '#' + principioAtivo + '#' + apresentacao).toString().toLowerCase().replace(/\s+/g, '');
+            const chaveGeralStr = (nome + '#' + principioAtivo + '#' + apresentacao).toString().toLowerCase().replace(/\s+/g, '');
+            const chaveGeral = gerarHashCode(chaveGeralStr);
+
             const quantidadeTotal = 0;
             const validadeMaisProxima = "-";
 

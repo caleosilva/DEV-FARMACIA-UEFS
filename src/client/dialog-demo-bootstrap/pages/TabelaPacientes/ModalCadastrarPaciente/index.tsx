@@ -106,7 +106,7 @@ export default function ModalCadastarPaciente({ data, setData, listaDD }: { data
 
     const [isFormValid, setIsFormValid] = useState(false);
     useEffect(() => {
-        if (nome !== '' && cpf !== '' && cpf.length === 14 && dataNascimento !== '' && telefone !== '' && telefone.length >= 14 && tipoPaciente !== '' && sexo !== '' && estadoCivil !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && profissao !== '' && nivelEscolaridade !== '' && identidadeGenero !== '') {
+        if (nome !== '' && cpf !== '' && cpf.length >= 13 && dataNascimento !== '' && telefone !== '' && telefone.length >= 14 && tipoPaciente !== '' && sexo !== '' && estadoCivil !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && profissao !== '' && nivelEscolaridade !== '' && identidadeGenero !== '') {
             setIsFormValid(true);
             setAvisoIncompleto(false);
         } else {

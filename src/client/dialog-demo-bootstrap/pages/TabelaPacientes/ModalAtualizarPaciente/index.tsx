@@ -51,7 +51,6 @@ export default function ModalAtualizarPaciente({ paciente, index, listaDrop, dat
     const dateValue = Date.parse(dataNascimento.toString());
     const dateObject = new Date(dateValue);
 
-
     const [show, setShow] = useState(false);
 
     const handleClose = () => {
@@ -77,6 +76,21 @@ export default function ModalAtualizarPaciente({ paciente, index, listaDrop, dat
     };
 
     const handleShow = () => {
+        setNome(paciente.nome);
+        setCpf(paciente.cpf);
+        setDataNascimento(paciente.dataNascimento);
+        setTelefone(paciente.telefone);
+        setTipoPaciente(paciente.tipoPaciente);
+        setSexo(paciente.sexo);
+        setEstadoCivil(paciente.estadoCivil);
+        setCidade(paciente.cidade);
+        setBairro(paciente.bairro);
+        setEndereco(paciente.endereco);
+        setNumero(paciente.numero);
+        setComoSoube(paciente.comoSoube);
+        setNomeSocial(paciente.nomeSocial);
+        setIdentidadeGenero(paciente.identidadeGenero);
+
         setShow(true);
         setAlterado(false);
     };
@@ -113,7 +127,7 @@ export default function ModalAtualizarPaciente({ paciente, index, listaDrop, dat
     useEffect(() => {
         var localDataString = formatarData(dataNascimento);
 
-        if (nome !== '' && cpf !== '' && cpf.length === 14 && (!isNaN(dateObject.getTime())) && localDataString.length <= 10 && telefone !== '' && telefone.length >= 14 && tipoPaciente !== '' && sexo !== '' && estadoCivil !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && nivelEscolaridade !== '' && profissao !== '' && identidadeGenero !== '') {
+        if (nome !== '' && cpf !== '' && cpf.length >= 13 && (!isNaN(dateObject.getTime())) && localDataString.length <= 10 && telefone !== '' && telefone.length >= 14 && tipoPaciente !== '' && sexo !== '' && estadoCivil !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && nivelEscolaridade !== '' && profissao !== '' && identidadeGenero !== '') {
             setIsFormValid(true);
             setAvisoIncompleto(false);
         } else {

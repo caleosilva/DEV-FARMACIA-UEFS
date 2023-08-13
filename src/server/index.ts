@@ -15,7 +15,10 @@ import {
 import {
   getInformacoesSelect,
   buscaBinariaSimples,
-  formatarData
+  formatarData,
+  atualizarChavesPrimariaMedicamentos,
+  atualizarChavesPrimariaMedicamentoEspecifico,
+  atualizarChavesPrimariaEstoque
 } from './geral'
 
 // Imports referentes aos Medicamentos:
@@ -67,6 +70,9 @@ export {
   getInformacoesSelect,
   buscaBinariaSimples,
   formatarData,
+  atualizarChavesPrimariaMedicamentos,
+  atualizarChavesPrimariaMedicamentoEspecifico,
+  atualizarChavesPrimariaEstoque,
 
   //Medicamentos
   getMedicamentos,

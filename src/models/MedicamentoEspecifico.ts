@@ -10,9 +10,8 @@ export default class MedicamentoEspecifico {
     fabricante: string;
     motivoDoacao: string;
     dataEntrada: Date;
-    chaveGeral: string;
 
-    constructor(chaveMedicamentoGeral: string, chaveMedicamentoEspecifico: string, lote: string, dosagem: string, validade: Date, quantidade: number, origem: string, tipo: string, fabricante: string, motivoDoacao: string, dataEntrada: Date, chaveGeral: string) {
+    constructor(chaveMedicamentoGeral: string, chaveMedicamentoEspecifico: string, lote: string, dosagem: string, validade: Date, quantidade: number, origem: string, tipo: string, fabricante: string, motivoDoacao: string, dataEntrada: Date) {
         
         this.chaveMedicamentoGeral = chaveMedicamentoGeral;
         this.chaveMedicamentoEspecifico = chaveMedicamentoEspecifico;
@@ -25,6 +24,5 @@ export default class MedicamentoEspecifico {
         this.fabricante = fabricante;
         this.motivoDoacao = motivoDoacao;
         this.dataEntrada = dataEntrada;
-        this.chaveGeral = chaveGeral;
     }
 }

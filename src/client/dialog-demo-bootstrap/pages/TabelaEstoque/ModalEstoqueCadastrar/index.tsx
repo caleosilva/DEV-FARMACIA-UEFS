@@ -17,6 +17,7 @@ import InputPositiveNumber from '../../../components/InputPositiveNumber';
 import InputReactSelect from '../../../components/InputReactSelect';
 import formatarDataParaVisualizacao from '../../../Functions/formatarDataParaVisualizacao';
 import UserContext from '../../../contexts/user/context';
+import gerarHashCode from '../../../Functions/gerarHashCode';
 
 import React, { useEffect } from 'react';
 import { useState, useContext } from 'react';
@@ -177,8 +178,8 @@ export default function ModalEstoqueCadastrar({ data, setData, listaDD, chaveMed
             var validadeFormatada = formatarData(validade);
             var dataHoje = dataHojeFormatada();
 
-            var chaveMedicamentoEspecifico = (lote + '#' + dosagem + '#' + validadeFormatada).toString().toLowerCase().replace(/\s+/g, '');
-            var chaveGeral = chaveMedicamentoGeral + '#' + chaveMedicamentoEspecifico;
+            var chaveMedicamentoEspecificoStr = (lote + '#' + dosagem + '#' + validadeFormatada).toString().toLowerCase().replace(/\s+/g, '');
+            var chaveMedicamentoEspecifico = gerarHashCode(chaveMedicamentoEspecificoStr);
 
             var chaveDoador = null;
             if (doador != null) {
@@ -215,8 +216,7 @@ export default function ModalEstoqueCadastrar({ data, setData, listaDD, chaveMed
                 tipo,
                 fabricante,
                 motivoDoacao,
-                "dataEntrada": dataHoje,
-                chaveGeral
+                "dataEntrada": dataHoje
             }
 
 

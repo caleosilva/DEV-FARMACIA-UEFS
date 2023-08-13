@@ -83,6 +83,8 @@ function TabelaMedicamentos() {
             validadeFormatada = formatarDataParaVisualizacao(validade)
         }
 
+        const indiceReal = data.findIndex((item) => item === remedio); // Encontrar o índice real do item
+
         return (
             <tr key={index}>
                 <td>{remedio.nome}</td>
@@ -91,7 +93,7 @@ function TabelaMedicamentos() {
                 <td>{remedio.quantidadeTotal}</td>
                 <td>{validadeFormatada}</td>
                 <td>
-                    <OperacoesMedicamento remedio={remedio} index={index} listaDD={infoDD} data={data} setData={setData} />
+                    <OperacoesMedicamento remedio={remedio} index={indiceReal} listaDD={infoDD} data={data} setData={setData} />
                 </td>
             </tr>
         )
@@ -150,32 +152,6 @@ function TabelaMedicamentos() {
                             </Col>
                         </Row>
                     </Container>
-
-                    {/* <Navbar>
-                        <Container fluid>
-                            <Navbar.Brand href="">Medicamentos</Navbar.Brand>
-                            <InputGroup className='buscar'>
-                                <Form.Control
-                                    placeholder={"Busque pelo nome ou princípio ativo"}
-                                    aria-label={"Nome do medicamento"}
-                                    aria-describedby="basic-addon2"
-                                    value={busca}
-                                    onChange={(ev) => setBusca(ev.target.value)}
-                                />
-                                <InputGroup.Text>
-                                    <i className="bi bi-search"></i>
-
-                                </InputGroup.Text>
-                            </InputGroup>
-
-                            <MedModalCadastrar
-                                listaDD={infoDD}
-                                data={data}
-                                setData={setData}
-                            />
-                        </Container>
-                    </Navbar> */}
-
                 </Card.Header>
                 <Card.Body>
                     {renderTable()}

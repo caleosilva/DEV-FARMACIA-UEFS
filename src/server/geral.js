@@ -1,4 +1,5 @@
 import idSheet from './env';
+import gerarHashCode from '../client/dialog-demo-bootstrap/Functions/gerarHashCode';
 
 
 export const getInformacoesSelect = () => {
@@ -139,4 +140,87 @@ export const formatarData = (dataRecebida) => {
 
     var dataFormatada = dia + '-' + mes + '-' + ano;
     return dataFormatada;
+}
+
+const ordenarPlanilha = (nomeDaAba, colunaBase) => {
+    var ss = SpreadsheetApp.openById(idSheet);
+    var ws = ss.getSheetByName(nomeDaAba);
+    var range = ws.getDataRange().offset(1, 0); // começa na segunda linha
+    range.sort(colunaBase);// ordena a faixa de células com base na coluna, Ex: 1 (A)
+}
+
+export const atualizarChavesPrimariaMedicamentos = () => {
+    var ss = SpreadsheetApp.openById(idSheet);
+    var ws = ss.getSheetByName("Medicamentos");
+
+    var lr = ws.getLastRow();
+
+    if (lr > 1) {
+        var data = ws.getRange(2, 1, lr - 1, ws.getLastColumn()).getValues();
+
+        if (data.length > 0) {
+            for (i = 0; i < data.length; i++) {
+                var chaveGeral = data[i][0].toString().replace(/\s/g, ''); // Acessando o código atual
+                var codigoHash = gerarHashCode(chaveGeral); // cria o código com base na chave
+                ws.getRange("A" + (i + 2)).setValue(codigoHash);
+            }
+            ordenarPlanilha("Medicamentos", 1)
+            return true
+        }
+    } else {
+        return false
+    }
+}
+
+export const atualizarChavesPrimariaMedicamentoEspecifico = () => {
+    var ss = SpreadsheetApp.openById(idSheet);
+    var ws = ss.getSheetByName("MedicamentoEspecifico");
+
+    var lr = ws.getLastRow();
+
+    if (lr > 1) {
+        var data = ws.getRange(2, 1, lr - 1, ws.getLastColumn()).getValues();
+
+        if (data.length > 0) {
+            for (i = 0; i < data.length; i++) {
+                var chaveMedicamentoGeral = data[i][0].toString().replace(/\s/g, '');
+                var codigoHashMedicamentoGeral = gerarHashCode(chaveMedicamentoGeral); // criar o código com base na chave
+                ws.getRange("A" + (i + 2)).setValue(codigoHashMedicamentoGeral);
+
+                var chaveMedicamentoEspecifico = data[i][1].toString().replace(/\s/g, '');;
+                var codigoHashChaveMedicamentoEspecifico = gerarHashCode(chaveMedicamentoEspecifico);  // criar o código com base na chave
+                ws.getRange("B" + (i + 2)).setValue(codigoHashChaveMedicamentoEspecifico);
+            }
+            ordenarPlanilha("MedicamentoEspecifico", 1)
+            return true
+        }
+    } else {
+        return false
+    }
+}
+
+export const atualizarChavesPrimariaEstoque = () => {
+    var ss = SpreadsheetApp.openById(idSheet);
+    var ws = ss.getSheetByName("Estoque");
+
+    var lr = ws.getLastRow();
+
+    if (lr > 1) {
+        var data = ws.getRange(2, 1, lr - 1, ws.getLastColumn()).getValues();
+
+        if (data.length > 0) {
+            for (i = 0; i < data.length; i++) {
+                var chaveMedicamentoGeral = data[i][5].toString().replace(/\s/g, '');
+                var codigoHashMedicamentoGeral = gerarHashCode(chaveMedicamentoGeral); // criar o código com base na chave
+                ws.getRange("F" + (i + 2)).setValue(codigoHashMedicamentoGeral);
+
+                var chaveMedicamentoEspecifico = data[i][4].toString().replace(/\s/g, '');;
+                var codigoHashChaveMedicamentoEspecifico = gerarHashCode(chaveMedicamentoEspecifico);  // criar o código com base na chave
+                ws.getRange("E" + (i + 2)).setValue(codigoHashChaveMedicamentoEspecifico);
+            }
+            return true
+        }
+    } else {
+        return false
+    }
 }

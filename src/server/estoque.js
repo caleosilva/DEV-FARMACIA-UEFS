@@ -1,7 +1,6 @@
-import MedicamentoEspecifico from '../models/MedicamentoEspecifico';
 import formatarData from '../client/dialog-demo-bootstrap/Functions/formatarData';
 import idSheet from './env';
-// import { buscaBinariaSimples } from './geral';
+import gerarHashCode from '../client/dialog-demo-bootstrap/Functions/gerarHashCode';
 
 const formatarDataParaTabela = (dataRecebida) => {
     // Cria um objeto Date usando a data recebida (no formato "mm/dd/aaaa")
@@ -178,6 +177,112 @@ const atualizarChaveMedicamentoEspecificoNoEstoque = (chaveMedicamentoEspecifico
     }
 }
 
+const getMedEspecificoChaveMedEspecifico = (chaveMedicamentoGeral, chaveMedicamentoEspecifico) => {
+    var ss = SpreadsheetApp.openById(idSheet);
+    var ws = ss.getSheetByName("MedicamentoEspecifico");
+
+    var lr = ws.getLastRow();
+
+    if (lr > 1) {
+        const dados = ws.getRange(2, 1, lr, ws.getLastColumn()).getValues();
+
+        let esquerda = 0;
+        let direita = dados.length - 1;
+
+        while (esquerda <= direita) {
+
+            let meio = Math.floor((esquerda + direita) / 2);
+
+            if (dados[meio][0] === chaveMedicamentoGeral) {
+
+                let linhaReal = meio + 2
+                let informacao = ws.getRange(linhaReal, 1, 1, ws.getLastColumn()).getValues();
+
+                if (chaveMedicamentoEspecifico === informacao[0][1]) {
+                    let remedio = {
+                        chaveMedicamentoGeral: informacao[0][0],
+                        chaveMedicamentoEspecifico: informacao[0][1],
+                        lote: informacao[0][2],
+                        dosagem: informacao[0][3],
+                        validade: informacao[0][4],
+                        quantidade: informacao[0][5],
+                        origem: informacao[0][6],
+                        tipo: informacao[0][7],
+                        fabricante: informacao[0][8],
+                        motivoDoacao: informacao[0][9],
+                        dataEntrada: informacao[0][10]
+                    }
+
+                    return { linha: linhaReal, dados: remedio }
+                }
+
+                // Verifique os elementos à esquerda do meio
+                let esquerdaIndex = meio - 1;
+                while (esquerdaIndex >= 0 && dados[esquerdaIndex][0] === chaveMedicamentoGeral) {
+                    let linhaReal = esquerdaIndex + 2;
+                    let informacao = ws.getRange(linhaReal, 1, 1, ws.getLastColumn()).getValues();
+
+                    if (chaveMedicamentoEspecifico === informacao[0][1]) {
+                        let remedio = {
+                            chaveMedicamentoGeral: informacao[0][0],
+                            chaveMedicamentoEspecifico: informacao[0][1],
+                            lote: informacao[0][2],
+                            dosagem: informacao[0][3],
+                            validade: informacao[0][4],
+                            quantidade: informacao[0][5],
+                            origem: informacao[0][6],
+                            tipo: informacao[0][7],
+                            fabricante: informacao[0][8],
+                            motivoDoacao: informacao[0][9],
+                            dataEntrada: informacao[0][10]
+                        }
+
+                        return { linha: linhaReal, dados: remedio }
+                    }
+                    esquerdaIndex--;
+                }
+
+                // Verifique os elementos à direita do meio
+                let direitaIndex = meio + 1;
+                while (direitaIndex < dados.length && dados[direitaIndex][0] === chaveMedicamentoGeral) {
+                    let linhaReal = direitaIndex + 2;
+                    let informacao = ws.getRange(linhaReal, 1, 1, ws.getLastColumn()).getValues();
+
+                    if (chaveMedicamentoEspecifico === informacao[0][1]) {
+                        let remedio = {
+                            chaveMedicamentoGeral: informacao[0][0],
+                            chaveMedicamentoEspecifico: informacao[0][1],
+                            lote: informacao[0][2],
+                            dosagem: informacao[0][3],
+                            validade: informacao[0][4],
+                            quantidade: informacao[0][5],
+                            origem: informacao[0][6],
+                            tipo: informacao[0][7],
+                            fabricante: informacao[0][8],
+                            motivoDoacao: informacao[0][9],
+                            dataEntrada: informacao[0][10]
+                        }
+                        return { linha: linhaReal, dados: remedio }
+                    }
+                    direitaIndex++;
+                }
+
+                return false;
+
+            } else if (dados[meio][0] < chaveMedicamentoGeral) {
+                esquerda = meio + 1;
+            } else {
+                direita = meio - 1;
+            }
+        }
+
+        return false;
+
+    } else {
+        return false;
+    }
+}
+
 export const queryMedicamentoEspecifico = (chaveDeBusca) => {
     var sql = "select * where B = '" + chaveDeBusca + "'";
     var dados = realizarQuery('MedicamentoEspecifico', 'A', 'L', sql)
@@ -267,8 +372,7 @@ export const buscaBinariaCompletaPelaChaveMedicamentoGeral = (valorBuscado) => {
                     tipo: informacao[0][7],
                     fabricante: informacao[0][8],
                     motivoDoacao: informacao[0][9],
-                    dataEntrada: informacao[0][10],
-                    chaveGeral: informacao[0][11]
+                    dataEntrada: informacao[0][10]
                 }
                 resultado.push(data);
 
@@ -288,8 +392,7 @@ export const buscaBinariaCompletaPelaChaveMedicamentoGeral = (valorBuscado) => {
                         tipo: informacao[0][7],
                         fabricante: informacao[0][8],
                         motivoDoacao: informacao[0][9],
-                        dataEntrada: informacao[0][10],
-                        chaveGeral: informacao[0][11]
+                        dataEntrada: informacao[0][10]
                     }
                     resultado.push(data);
                     esquerdaIndex--;
@@ -311,8 +414,7 @@ export const buscaBinariaCompletaPelaChaveMedicamentoGeral = (valorBuscado) => {
                         tipo: informacao[0][7],
                         fabricante: informacao[0][8],
                         motivoDoacao: informacao[0][9],
-                        dataEntrada: informacao[0][10],
-                        chaveGeral: informacao[0][11]
+                        dataEntrada: informacao[0][10]
                     }
                     resultado.push(data);
                     direitaIndex++;
@@ -352,8 +454,7 @@ export const queryChaveMedicamentoGeral = (chaveDeBusca) => {
                 tipo: dados[i][7],
                 fabricante: dados[i][8],
                 motivoDoacao: dados[i][9],
-                dataEntrada: dados[i][10],
-                chaveGeral: dados[i][11]
+                dataEntrada: dados[i][10]
             }
             informacoes.push(data);
         }
@@ -373,7 +474,7 @@ export const appendRowMedicamentoEspecifico = (medicamento, infoEstoque) => {
     if (queryMedicamentoEspecifico(codigo, "B")) {
         return false;
     } else {
-        const chaveGeral = medicamento.chaveMedicamentoGeral + '#' + medicamento.chaveMedicamentoEspecifico;
+        // const chaveGeral = medicamento.chaveMedicamentoGeral + '#' + medicamento.chaveMedicamentoEspecifico;
         const validadeFormatada = formatarData(medicamento.validade);
         const dataEntradaFormatada = formatarData(medicamento.dataEntrada)
 
@@ -389,10 +490,9 @@ export const appendRowMedicamentoEspecifico = (medicamento, infoEstoque) => {
             medicamento.fabricante,
             medicamento.motivoDoacao,
             dataEntradaFormatada,
-            chaveGeral,
             infoEstoque.chaveUsuario
         ]);
-        ordenarPlanilha("MedicamentoEspecifico", 12)
+        ordenarPlanilha("MedicamentoEspecifico", 1)
 
         // Atualiza a quantidade:
         var codigoMed = medicamento.chaveMedicamentoGeral;
@@ -421,8 +521,8 @@ export const updateRowEstoque = (medicamento) => {
     const validadeFormatada = formatarData(medicamento.validade);
     const dataEntradaFormatada = formatarData(medicamento.dataEntrada);
 
-    var novaChaveMedicamentoEspecifico = (medicamento.lote + '#' + medicamento.dosagem + '#' + validadeFormatada).toString().toLowerCase().replace(/\s/g, '');
-    var novaChaveGeral = medicamento.chaveMedicamentoGeral + '#' + novaChaveMedicamentoEspecifico;
+    var novaChaveMedicamentoEspecificoStr = (medicamento.lote + '#' + medicamento.dosagem + '#' + validadeFormatada).toString().toLowerCase().replace(/\s/g, '');
+    var novaChaveMedicamentoEspecifico = gerarHashCode(novaChaveMedicamentoEspecificoStr);
 
     // Lista com os novos dados:
     var novosDados = []
@@ -436,23 +536,20 @@ export const updateRowEstoque = (medicamento) => {
             return false;
         } else {
 
-            novosDados = [medicamento.chaveMedicamentoGeral, novaChaveMedicamentoEspecifico, medicamento.lote, medicamento.dosagem, validadeFormatada, medicamento.quantidade, medicamento.origem, medicamento.tipo, medicamento.fabricante, medicamento.motivoDoacao, dataEntradaFormatada, novaChaveGeral];
+            novosDados = [medicamento.chaveMedicamentoGeral, novaChaveMedicamentoEspecifico, medicamento.lote, medicamento.dosagem, validadeFormatada, medicamento.quantidade, medicamento.origem, medicamento.tipo, medicamento.fabricante, medicamento.motivoDoacao, dataEntradaFormatada];
         }
 
         // Se a chave continuar a mesma
     } else {
-        novosDados = [medicamento.chaveMedicamentoGeral, medicamento.chaveMedicamentoEspecifico, medicamento.lote, medicamento.dosagem, validadeFormatada, medicamento.quantidade, medicamento.origem, medicamento.tipo, medicamento.fabricante, medicamento.motivoDoacao, dataEntradaFormatada, novaChaveGeral];
+        novosDados = [medicamento.chaveMedicamentoGeral, medicamento.chaveMedicamentoEspecifico, medicamento.lote, medicamento.dosagem, validadeFormatada, medicamento.quantidade, medicamento.origem, medicamento.tipo, medicamento.fabricante, medicamento.motivoDoacao, dataEntradaFormatada];
     }
 
-    var chaveGeralOriginal = medicamento.chaveGeral;
-
-
     // Acha a linha que os dados originais estão:
-    var buscaChaveOriginal = buscaBinariaSimples('MedicamentoEspecifico', chaveGeralOriginal, 12);
+    var buscaChaveOriginal = getMedEspecificoChaveMedEspecifico(medicamento.chaveMedicamentoGeral, medicamento.chaveMedicamentoEspecifico);
 
     if (buscaChaveOriginal) {
-        ws.getRange('A' + buscaChaveOriginal.linha + ':L' + buscaChaveOriginal.linha).setValues([novosDados]);
-        ordenarPlanilha('MedicamentoEspecifico', 12);
+        ws.getRange('A' + buscaChaveOriginal.linha + ':K' + buscaChaveOriginal.linha).setValues([novosDados]);
+        ordenarPlanilha('MedicamentoEspecifico', 1);
 
         // Atualiza a validade:
         definirDataMaisRecente(medicamento);
@@ -473,8 +570,7 @@ export const removeRowEstoque = (medicamento) => {
     var ws = ss.getSheetByName("MedicamentoEspecifico");
 
     // Encontrando o medicamento:
-    var codigo = medicamento.chaveGeral;
-    var dados = buscaBinariaSimples("MedicamentoEspecifico", codigo, 12);
+    var dados = getMedEspecificoChaveMedEspecifico(medicamento.chaveMedicamentoGeral, medicamento.chaveMedicamentoEspecifico);
 
     if (dados) {
         let linha = dados.linha;
@@ -504,8 +600,8 @@ export const atualizarQuantidadeEstoque = (medicamento, quantidadeInput, adicion
     var ws = ss.getSheetByName("MedicamentoEspecifico");
 
     // Encontrando o medicamento:
-    var codigo = medicamento.chaveGeral;
-    var dados = buscaBinariaSimples("MedicamentoEspecifico", codigo, 12)
+    var dados = getMedEspecificoChaveMedEspecifico(medicamento.chaveMedicamentoGeral, medicamento.chaveMedicamentoEspecifico);
+
 
     if (dados) {
         var codigoMed = medicamento.chaveMedicamentoGeral;

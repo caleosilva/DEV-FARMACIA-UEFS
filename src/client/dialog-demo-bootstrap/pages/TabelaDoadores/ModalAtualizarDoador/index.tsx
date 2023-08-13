@@ -77,6 +77,21 @@ function MedModalAtualizar({ doador, index, listaDrop, data, setData }:
     };
 
     const handleShow = () => {
+        setNome(doador.nome);
+        setCidade(doador.cidade);
+        setBairro(doador.bairro);
+        setEndereco(doador.endereco);
+        setNumero(doador.numero);
+        setComoSoube(doador.comoSoube);
+        setCnpj(doador.cnpj);
+        setCpf(doador.cpf);
+        setDataNascimento(doador.dataNascimento);
+        setSexo(doador.sexo);
+        setEstadoCivil(doador.estadoCivil);
+
+        setNomeSocial(doador.nomeSocial);
+        setIdentidadeGenero(doador.identidadeGenero);
+        
         setShow(true);
         setAlterado(false);
     };
@@ -174,7 +189,7 @@ function MedModalAtualizar({ doador, index, listaDrop, data, setData }:
         } else if (tipoDoador === "Pessoa jurídica" && nome !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && cnpj !== '' && cnpj.length == 18) {
             setIsFormValid(true);
             setAvisoIncompleto(false);
-        } else if (tipoDoador === "Pessoa física" && nome !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && cpf !== '' && cpf.length === 14 && (!isNaN(dateObject.getTime())) && localDataString.length <= 10 && sexo !== '' && estadoCivil !== '' && identidadeGenero !== '') {
+        } else if (tipoDoador === "Pessoa física" && nome !== '' && cidade !== '' && bairro !== '' && endereco !== '' && numero !== '' && comoSoube !== '' && cpf !== '' && cpf.length >= 13 && (!isNaN(dateObject.getTime())) && localDataString.length <= 10 && sexo !== '' && estadoCivil !== '' && identidadeGenero !== '') {
             setIsFormValid(true);
             setAvisoIncompleto(false);
         } else {

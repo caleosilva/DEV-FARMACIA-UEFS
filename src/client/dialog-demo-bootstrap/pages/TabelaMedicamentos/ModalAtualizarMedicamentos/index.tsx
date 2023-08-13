@@ -13,7 +13,9 @@ import InputText from '../../../components/InputText';
 import InputSelect from '../../../components/InputSelect';
 import { serverFunctions } from '../../../../utils/serverFunctions';
 import gerarObjetoEstiloMedicamentoGeral from '../../../Functions/gerarObjetoEstiloMedicamentoGeral.js';
-import MedicamentoGeral from '../../../../../models/MedicamentoGeral'
+import MedicamentoGeral from '../../../../../models/MedicamentoGeral';
+import gerarHashCode from '../../../Functions/gerarHashCode';
+
 
 
 function MedModalAtualizar({ remedio, index, listaDrop, data, setData }:
@@ -105,7 +107,6 @@ function MedModalAtualizar({ remedio, index, listaDrop, data, setData }:
     }, [classe, tarja, apresentacao, nome, principioAtivo]);
 
     useEffect(() => {
-
         if (isFormValid) {
             if (!alterado) {
                 setLoading(false);
@@ -117,11 +118,8 @@ function MedModalAtualizar({ remedio, index, listaDrop, data, setData }:
                     chaveGeral, dataCadastro, nome, principioAtivo, tarja, classe, apresentacao, quantidadeTotal, validadeMaisProxima
                 }
                 if (isLoading) {
-
                     serverFunctions.updateRowMedicamentos(medicamentoGeral).then((sucesso) => {
                         if (sucesso) {
-
-
                             var novosDados = gerarObjetoEstiloMedicamentoGeral(medicamentoGeral);
 
                             data[index] = novosDados;

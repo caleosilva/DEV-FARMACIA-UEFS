@@ -65,9 +65,9 @@ export default function AccordionitemUnico({ eventKey, paciente, dataMedicamento
                 <Row className='mb-3 mt-3'>
                     <Col>
                         <Alert variant="danger" onClose={() => setMensagem(false)} dismissible>
-                            <Alert.Heading>Não foi possível atualizar as informações</Alert.Heading>
+                            <Alert.Heading>Erro!</Alert.Heading>
                             <p>
-                                Já existe um paciente cadastrado com o CPF, CNPJ ou Nome inserido.
+                                Não foi possível registrar a saída, tente novamente. Caso o erro persista, comunique o administrador.
                             </p>
                         </Alert>
                     </Col>
@@ -150,6 +150,8 @@ export default function AccordionitemUnico({ eventKey, paciente, dataMedicamento
 
                     {renderWarningBackError()}
 
+                    {renderWarningDadosExistentes()}
+
                     <Row>
                         <Col className='d-flex justify-content-center mt-3'>
                             <Button variant="outline-secondary" className='me-5' onClick={handleLimpar}>
@@ -219,7 +221,6 @@ export default function AccordionitemUnico({ eventKey, paciente, dataMedicamento
                 chavePaciente: paciente.chavePaciente,
                 chaveUsuario: state.chaveUsuario, //PEGAR ISSO DE QUEM TÁ LOGADO
                 quantidade,
-                chaveGeralMedicamentoEspecifico: objMedicamentoEspecifico.value.chaveGeral
             }
         }
 
@@ -227,6 +228,7 @@ export default function AccordionitemUnico({ eventKey, paciente, dataMedicamento
             // no back, atualizar a quantidade tanto no estoque quanto na geral.
 
             serverFunctions.saidaPorPaciente(dados).then((sucesso) => {
+                console.log(sucesso);
                 if (sucesso) {
                     handleSomar();
                     setSucesso(true);

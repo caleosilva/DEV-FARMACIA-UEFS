@@ -21,7 +21,7 @@ import InputSelect from '../../../../components/InputSelect';
 import formatarData from '../../../../Functions/formatarData';
 import UserContext from '../../../../contexts/user/context';
 import ExibirInputSimples from '../../../../components/ExibirInputSimples';
-
+import gerarHashCode from '../../../../Functions/gerarHashCode';
 
 export default function AccordionitemUnico({ eventKey, doador, dataMedicamentoGeral, setDataMedicamentoGeral, lista, quantidadePreenchida, setQuantidadePreenchida }: { eventKey: string, doador: Doador, dataMedicamentoGeral: any, setDataMedicamentoGeral: Function, lista: string[][], quantidadePreenchida: number, setQuantidadePreenchida: Function }) {
 
@@ -286,9 +286,10 @@ export default function AccordionitemUnico({ eventKey, doador, dataMedicamentoGe
 
             var validadeFormatada = formatarData(validade);
 
-            const chaveMedicamentoEspecifico = (lote + '#' + dosagem + '#' + validadeFormatada).toString().toLowerCase().replace(/\s+/g, '');
+            const chaveMedicamentoEspecificoStr = (lote + '#' + dosagem + '#' + validadeFormatada).toString().toLowerCase().replace(/\s+/g, '');
+            const chaveMedicamentoEspecifico = gerarHashCode(chaveMedicamentoEspecificoStr);
             const chaveMedicamentoGeral = objMedicamentoGeral.value.chaveGeral;
-            const chaveGeral = chaveMedicamentoGeral + '#' + chaveMedicamentoEspecifico;
+            // const chaveGeral = chaveMedicamentoGeral + '#' + chaveMedicamentoEspecifico;
 
             const dadosEstoque = {
                 dataOperacao,
@@ -313,8 +314,7 @@ export default function AccordionitemUnico({ eventKey, doador, dataMedicamentoGe
                 tipo,
                 fabricante,
                 motivoDoacao,
-                "dataEntrada": dataOperacao,
-                chaveGeral
+                "dataEntrada": dataOperacao
             }
 
             serverFunctions.appendRowMedicamentoEspecifico(medicamentoEspecifico, dadosEstoque).then((sucesso) => {

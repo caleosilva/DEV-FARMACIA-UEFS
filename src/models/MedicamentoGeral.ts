@@ -1,13 +1,13 @@
 export default class MedicamentoGeral {
     chaveGeral: string;
-    dataCadastro: Date; // sempre no formato dd-mm-aaaa
+    dataCadastro: Date;
     nome: string;
     principioAtivo: string;
     tarja: string;
     classe: string;
     apresentacao: string;
     quantidadeTotal: number;
-    validadeMaisProxima: string; // sempre no formato dd-mm-aaaa ou somente -
+    validadeMaisProxima: string;
 
     constructor(chaveGeral: string, dataCadastro: Date, nome: string, principioAtivo: string, tarja: string, classe: string, apresentacao: string, quantidadeTotal: number, validadeMaisProxima: string) {
 

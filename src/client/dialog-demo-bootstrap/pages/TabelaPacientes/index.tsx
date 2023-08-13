@@ -23,7 +23,7 @@ import formatarDataParaVisualizacao from '../../Functions/formatarDataParaVisual
 export default function TabelaPaciente() {
 
     const [busca, setBusca] = useState('');
-    
+
     // Server: 
     const [data, setData] = useState(null);
     const [infoDD, setInfoDD] = useState(null);
@@ -77,15 +77,9 @@ export default function TabelaPaciente() {
                                     formatarData(item.dataNascimento).toLowerCase().includes(busca.toLowerCase()) ||
                                     item.cpf.toLowerCase().includes(busca.toLowerCase())
 
-                            }).map((paciente, index) =>
-                                <tr key={index}>
-                                    <td>{paciente.nome}</td>
-                                    <td>{formatarDataParaVisualizacao(paciente.dataNascimento)}</td>
-                                    <td>{paciente.cpf}</td>
-                                    <td>
-                                        <OperacaoPacientes paciente={paciente} listaDD={infoDD} data={data} setData={setData} index={index} />
-                                    </td>
-                                </tr>) : ''}
+                            }).map((paciente, index) => {
+                                return renderInformacoes(paciente, index);
+                            }) : ''}
                         </>
                     </tbody>
                 </Table>
@@ -93,12 +87,28 @@ export default function TabelaPaciente() {
         }
     }
 
+    function renderInformacoes(paciente, index) {
+
+        const indiceReal = data.findIndex((item) => item === paciente); // Encontrar o índice real do item
+
+        return (
+            <tr key={index}>
+                <td>{paciente.nome}</td>
+                <td>{formatarDataParaVisualizacao(paciente.dataNascimento)}</td>
+                <td>{paciente.cpf}</td>
+                <td>
+                    <OperacaoPacientes paciente={paciente} listaDD={infoDD} data={data} setData={setData} index={indiceReal} />
+                </td>
+            </tr>
+        )
+    }
+
     return (
         <section className='margemNavBar ms-5 me-5'>
 
             <Card>
                 <Card.Header>
-                    
+
                     <Container fluid>
                         <Row className=''>
                             <Col md={3} className='d-flex justify-content-center align-items-center mb-2 mt-1'>

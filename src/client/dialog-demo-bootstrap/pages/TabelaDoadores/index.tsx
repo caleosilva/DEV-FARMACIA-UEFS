@@ -89,20 +89,30 @@ export default function TabelaDoadores() {
                                     formatarData(item.dataNascimento).toLowerCase().includes(busca.toLowerCase()) ||
                                     item.cpf.toLowerCase().includes(busca.toLowerCase())
 
-                            }).map((doador, index) =>
-                                <tr key={index}>
-                                    <td>{doador.nome}</td>
-                                    <td>{formatarDataParaVisualizacao(doador.dataNascimento)}</td>
-                                    <td>{doador.cpf}</td>
-                                    <td>
-                                        <OperacaoDoadores doador={doador} listaDD={infoDD} data={data} setData={setData} index={index} dataMedicamentoGeral={dataMedicamentoGeral} setDataMedicamentoGeral={setDataMedicamentoGeral} />
-                                    </td>
-                                </tr>) : ''}
+                            }).map((doador, index) => {
+                                return renderInformacoes(doador, index);
+                            }) : ''}
                         </>
                     </tbody>
                 </Table>
             )
         }
+    }
+
+    function renderInformacoes(doador, index) {
+
+        const indiceReal = data.findIndex((item) => item === doador); // Encontrar o índice real do item
+
+        return (
+            <tr key={index}>
+                <td>{doador.nome}</td>
+                <td>{formatarDataParaVisualizacao(doador.dataNascimento)}</td>
+                <td>{doador.cpf}</td>
+                <td>
+                    <OperacaoDoadores doador={doador} listaDD={infoDD} data={data} setData={setData} index={indiceReal} dataMedicamentoGeral={dataMedicamentoGeral} setDataMedicamentoGeral={setDataMedicamentoGeral} />
+                </td>
+            </tr>
+        )
     }
 
     return (

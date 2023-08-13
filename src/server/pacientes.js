@@ -43,21 +43,21 @@ const buscaBinariaSimples = (nomePlanilha, valorBuscado, colBusca) => {
     return null;
 }
 
-const atualizarQuantidadeEstoque = (medEspecificoChaveGeral, medEspecificoChaveMedicamentoGeral, novaQuantidade, quantidade) => {
+const atualizarQuantidadeEstoque = (chaveMedicamentoGeral, chaveMedicamentoEspecifico, novaQuantidade, quantidade) => {
     //Abrindo a planilha:
     var ss = SpreadsheetApp.openById(idSheet);
     var ws = ss.getSheetByName("MedicamentoEspecifico");
 
     // Encontrando o medicamento específico:
-    var dados = buscaBinariaSimples("MedicamentoEspecifico", medEspecificoChaveGeral, 12);
+    var retornoBusca = getMedicamentoEspecifico(chaveMedicamentoGeral, chaveMedicamentoEspecifico);
 
-    if (dados) {
+    if (retornoBusca) {
         //Atualiza na tabela MedicamentoEspecifico
-        ws.getRange("F" + parseInt(dados.linha)).setValue(novaQuantidade);
+        ws.getRange("F" + parseInt(retornoBusca.linha)).setValue(novaQuantidade);
 
         // Abre a planilha Medicamentos
         var wsMed = ss.getSheetByName("Medicamentos");
-        var dadosMed = buscaBinariaSimples("Medicamentos", medEspecificoChaveMedicamentoGeral, 1);
+        var dadosMed = buscaBinariaSimples("Medicamentos", chaveMedicamentoGeral, 1);
 
 
         var quantidadeMed = wsMed.getRange("H" + parseInt(dadosMed.linha)).getValue();
@@ -83,6 +83,112 @@ const atualizarChavePacienteNoEstoque = (chavePaciente, novaChavePaciente) => {
                 wsEstoque.getRange(i + 2, 8).setValue(novaChavePaciente);
             }
         }
+    }
+}
+
+const getMedicamentoEspecifico = (chaveMedicamentoGeral, chaveMedicamentoEspecifico) => {
+    var ss = SpreadsheetApp.openById(idSheet);
+    var ws = ss.getSheetByName("MedicamentoEspecifico");
+
+    var lr = ws.getLastRow();
+
+    if (lr > 1) {
+        const dados = ws.getRange(2, 1, lr, ws.getLastColumn()).getValues();
+
+        let esquerda = 0;
+        let direita = dados.length - 1;
+
+        while (esquerda <= direita) {
+
+            let meio = Math.floor((esquerda + direita) / 2);
+
+            if (dados[meio][0] === chaveMedicamentoGeral) {
+
+                let linhaReal = meio + 2
+                let informacao = ws.getRange(linhaReal, 1, 1, ws.getLastColumn()).getValues();
+
+                if (chaveMedicamentoEspecifico === informacao[0][1]) {
+                    let remedio = {
+                        chaveMedicamentoGeral: informacao[0][0],
+                        chaveMedicamentoEspecifico: informacao[0][1],
+                        lote: informacao[0][2],
+                        dosagem: informacao[0][3],
+                        validade: informacao[0][4],
+                        quantidade: informacao[0][5],
+                        origem: informacao[0][6],
+                        tipo: informacao[0][7],
+                        fabricante: informacao[0][8],
+                        motivoDoacao: informacao[0][9],
+                        dataEntrada: informacao[0][10]
+                    }
+
+                    return { linha: linhaReal, dados: remedio }
+                }
+
+                // Verifique os elementos à esquerda do meio
+                let esquerdaIndex = meio - 1;
+                while (esquerdaIndex >= 0 && dados[esquerdaIndex][0] === chaveMedicamentoGeral) {
+                    let linhaReal = esquerdaIndex + 2;
+                    let informacao = ws.getRange(linhaReal, 1, 1, ws.getLastColumn()).getValues();
+
+                    if (chaveMedicamentoEspecifico === informacao[0][1]) {
+                        let remedio = {
+                            chaveMedicamentoGeral: informacao[0][0],
+                            chaveMedicamentoEspecifico: informacao[0][1],
+                            lote: informacao[0][2],
+                            dosagem: informacao[0][3],
+                            validade: informacao[0][4],
+                            quantidade: informacao[0][5],
+                            origem: informacao[0][6],
+                            tipo: informacao[0][7],
+                            fabricante: informacao[0][8],
+                            motivoDoacao: informacao[0][9],
+                            dataEntrada: informacao[0][10]
+                        }
+
+                        return { linha: linhaReal, dados: remedio }
+                    }
+                    esquerdaIndex--;
+                }
+
+                // Verifique os elementos à direita do meio
+                let direitaIndex = meio + 1;
+                while (direitaIndex < dados.length && dados[direitaIndex][0] === chaveMedicamentoGeral) {
+                    let linhaReal = direitaIndex + 2;
+                    let informacao = ws.getRange(linhaReal, 1, 1, ws.getLastColumn()).getValues();
+
+                    if (chaveMedicamentoEspecifico === informacao[0][1]) {
+                        let remedio = {
+                            chaveMedicamentoGeral: informacao[0][0],
+                            chaveMedicamentoEspecifico: informacao[0][1],
+                            lote: informacao[0][2],
+                            dosagem: informacao[0][3],
+                            validade: informacao[0][4],
+                            quantidade: informacao[0][5],
+                            origem: informacao[0][6],
+                            tipo: informacao[0][7],
+                            fabricante: informacao[0][8],
+                            motivoDoacao: informacao[0][9],
+                            dataEntrada: informacao[0][10]
+                        }
+                        return { linha: linhaReal, dados: remedio }
+                    }
+                    direitaIndex++;
+                }
+
+                return false;
+
+            } else if (dados[meio][0] < chaveMedicamentoGeral) {
+                esquerda = meio + 1;
+            } else {
+                direita = meio - 1;
+            }
+        }
+
+        return false;
+
+    } else {
+        return false;
     }
 }
 
@@ -223,7 +329,7 @@ export const updateRowPaciente = (paciente) => {
         ws.getRange('A' + buscaChaveOriginal.linha + ':Q' + buscaChaveOriginal.linha).setValues([novosDados]);
         ordenarPlanilha('Pacientes', 1);
 
-        if (paciente.cpf !== paciente.chavePaciente){
+        if (paciente.cpf !== paciente.chavePaciente) {
             atualizarChavePacienteNoEstoque(paciente.chavePaciente, paciente.cpf);
         }
 
@@ -237,7 +343,9 @@ export const saidaPorPaciente = (dados) => {
     var ws = ss.getSheetByName("Estoque");
 
     // Atualizar a quantidade:
-    const retornoAtualizacao = atualizarQuantidadeEstoque(dados.chaveGeralMedicamentoEspecifico, dados.chaveMedicamentoGeral, dados.novaQuantidade, dados.quantidade);
+    const retornoAtualizacao = atualizarQuantidadeEstoque(dados.chaveMedicamentoGeral, dados.chaveMedicamentoEspecifico, dados.novaQuantidade, dados.quantidade);
+
+    // return JSON.stringify(retornoAtualizacao);
 
     if (retornoAtualizacao) {
         // Adiciona na planilha estoque

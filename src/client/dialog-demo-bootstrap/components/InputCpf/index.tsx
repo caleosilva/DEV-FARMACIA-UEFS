@@ -13,12 +13,15 @@ export default function InputCpf({ label, placeholder, controlId, name, data, se
     const cpfLimpo = value.replace(/\D/g, '');
 
     let cpfComMascara = '';
-    if (cpfLimpo.length <= 3) {
+
+    if (cpfLimpo.length <= 2) {
       cpfComMascara = cpfLimpo;
-    } else if (cpfLimpo.length <= 6) {
-      cpfComMascara = `${cpfLimpo.slice(0, 3)}.${cpfLimpo.slice(3)}`;
-    } else if (cpfLimpo.length <= 9) {
-      cpfComMascara = `${cpfLimpo.slice(0, 3)}.${cpfLimpo.slice(3, 6)}.${cpfLimpo.slice(6)}`;
+    } else if (cpfLimpo.length <= 5) {
+      cpfComMascara = `${cpfLimpo.slice(0, 2)}.${cpfLimpo.slice(2)}`;
+    } else if (cpfLimpo.length <= 8) {
+      cpfComMascara = `${cpfLimpo.slice(0, 2)}.${cpfLimpo.slice(2, 5)}.${cpfLimpo.slice(5)}`;
+    } else if (cpfLimpo.length <= 10) {
+      cpfComMascara = `${cpfLimpo.slice(0, 2)}.${cpfLimpo.slice(2, 5)}.${cpfLimpo.slice(5, 8)}-${cpfLimpo.slice(8, 11)}`;
     } else {
       cpfComMascara = `${cpfLimpo.slice(0, 3)}.${cpfLimpo.slice(3, 6)}.${cpfLimpo.slice(6, 9)}-${cpfLimpo.slice(9, 11)}`;
     }
