@@ -24,6 +24,9 @@ export default function TabelaPaciente() {
 
     const [busca, setBusca] = useState('');
 
+    const [dataMedicamentoGeral, setDataMedicamentoGeral] = useState(null);
+
+
     // Server: 
     const [data, setData] = useState(null);
     const [infoDD, setInfoDD] = useState(null);
@@ -39,6 +42,16 @@ export default function TabelaPaciente() {
     useEffect(() => {
         renderTable();
     }, [data]);
+
+    useEffect(() => {
+        serverFunctions.getMedicamentos().then(dados => { setDataMedicamentoGeral(JSON.parse(dados)) }).catch(alert);
+    }, []);
+
+    useEffect(() => {
+        if (dataMedicamentoGeral === null) {
+            serverFunctions.getMedicamentos().then(dados => { setDataMedicamentoGeral(JSON.parse(dados)) }).catch(alert);
+        }
+    }, [dataMedicamentoGeral]);
 
     function renderTable() {
         if (data == null) {
@@ -97,7 +110,7 @@ export default function TabelaPaciente() {
                 <td>{formatarDataParaVisualizacao(paciente.dataNascimento)}</td>
                 <td>{paciente.cpf}</td>
                 <td>
-                    <OperacaoPacientes paciente={paciente} listaDD={infoDD} data={data} setData={setData} index={indiceReal} />
+                    <OperacaoPacientes paciente={paciente} listaDD={infoDD} data={data} setData={setData} index={indiceReal} dataMedicamentoGeral={dataMedicamentoGeral} setDataMedicamentoGeral={setDataMedicamentoGeral}/>
                 </td>
             </tr>
         )

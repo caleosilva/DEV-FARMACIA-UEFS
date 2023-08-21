@@ -89,9 +89,9 @@ export default function Home() {
                 className="d-inline-block align-top"
             />{' '}
 
-            <button onClick={handleClick}>
+            {/* <button onClick={handleClick}>
                 Iniciar mudança
-            </button>
+            </button> */}
 
 
         </div>

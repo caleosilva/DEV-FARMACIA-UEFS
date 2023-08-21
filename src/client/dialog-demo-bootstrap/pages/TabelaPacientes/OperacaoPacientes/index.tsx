@@ -9,10 +9,10 @@ import ModalSaidaMedicamento from '../ModalSaidaMedicamento';
 
 import React from 'react';
 
-export default function operacoesPaciente({ paciente, listaDD, data, setData, index }: { paciente: Paciente, listaDD: string[][], data: Array<Paciente>, setData: Function, index: number }) {
+export default function operacoesPaciente({ paciente, listaDD, data, setData, index, dataMedicamentoGeral, setDataMedicamentoGeral }: { paciente: Paciente, listaDD: string[][], data: Array<Paciente>, setData: Function, index: number, dataMedicamentoGeral: Array<any>, setDataMedicamentoGeral: Function }) {
     return (
         <ButtonGroup aria-label="Basic example">
-            <ModalSaidaMedicamento paciente={paciente} data={data} setData={setData} index={index} />
+            <ModalSaidaMedicamento paciente={paciente} dataMedicamentoGeral={dataMedicamentoGeral} setDataMedicamentoGeral={setDataMedicamentoGeral}/>
 
             <ModalVerMaisPaciente paciente={paciente} />
 

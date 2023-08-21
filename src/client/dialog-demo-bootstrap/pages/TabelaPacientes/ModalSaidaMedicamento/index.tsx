@@ -19,9 +19,9 @@ import { serverFunctions } from '../../../../utils/serverFunctions';
 import React, { useState, useEffect } from 'react';
 
 
-export default function ModalSaidaMedicamento({ paciente, data, setData, index }: { paciente: Paciente, data: Array<Paciente>, setData: Function, index: number }) {
+export default function ModalSaidaMedicamento({ paciente, dataMedicamentoGeral, setDataMedicamentoGeral }: { paciente: Paciente, dataMedicamentoGeral: Array<any>, setDataMedicamentoGeral: Function}) {
 
-    const [dataMedicamentoGeral, setDataMedicamentoGeral] = useState(null);
+    // const [dataMedicamentoGeral, setDataMedicamentoGeral] = useState(null);
 
     // CRIAR OS USESTATE
     const [mensagem, setMensagem] = useState(false);
@@ -149,15 +149,15 @@ export default function ModalSaidaMedicamento({ paciente, data, setData, index }
         )
     }
 
-    useEffect(() => {
-        serverFunctions.getMedicamentos().then(dados => { setDataMedicamentoGeral(JSON.parse(dados)) }).catch(alert);
-    }, []);
+    // useEffect(() => {
+    //     serverFunctions.getMedicamentos().then(dados => { setDataMedicamentoGeral(JSON.parse(dados)) }).catch(alert);
+    // }, []);
 
-    useEffect(() => {
-        if (dataMedicamentoGeral === null) {
-            serverFunctions.getMedicamentos().then(dados => { setDataMedicamentoGeral(JSON.parse(dados)) }).catch(alert);
-        }
-    }, [dataMedicamentoGeral]);
+    // useEffect(() => {
+    //     if (dataMedicamentoGeral === null) {
+    //         serverFunctions.getMedicamentos().then(dados => { setDataMedicamentoGeral(JSON.parse(dados)) }).catch(alert);
+    //     }
+    // }, [dataMedicamentoGeral]);
 
     return (
 
