@@ -88,7 +88,17 @@ export default function ModalSaidaEstoque({ remedio, listaDD, data, setData }: {
 
     useEffect(() => {
 
-        var novaQuantidade = remedio.quantidade - parseInt(quantidade);
+        var novaQuantidade = 0;
+        if (typeof remedio.quantidade === 'string') {
+            novaQuantidade = parseInt(remedio.quantidade) - parseInt(quantidade);
+        } else {
+            novaQuantidade = remedio.quantidade - parseInt(quantidade);
+        }
+
+        // Nunca vai cair aqui, massssss..
+        if (novaQuantidade < 0) novaQuantidade = 0;
+
+        // var novaQuantidade = remedio.quantidade - parseInt(quantidade);
         var chavePaciente = '-';
         if (paciente != null && paciente != undefined){
             chavePaciente = paciente.value.chavePaciente;

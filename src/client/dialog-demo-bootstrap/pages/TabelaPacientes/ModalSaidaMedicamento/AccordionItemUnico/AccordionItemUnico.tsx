@@ -208,7 +208,10 @@ export default function AccordionitemUnico({ eventKey, paciente, dataMedicamento
 
         var dados;
         if (objMedicamentoEspecifico != null) {
-            const novaQuantidade = parseInt(objMedicamentoEspecifico.value.quantidade) - parseInt(quantidade);
+            var novaQuantidade = parseInt(objMedicamentoEspecifico.value.quantidade) - parseInt(quantidade);
+            
+            // Nunca vai cair aqui, massssss..
+            if (novaQuantidade < 0) novaQuantidade = 0;
 
             dados = {
                 dataOperacao,
@@ -228,7 +231,6 @@ export default function AccordionitemUnico({ eventKey, paciente, dataMedicamento
             // no back, atualizar a quantidade tanto no estoque quanto na geral.
 
             serverFunctions.saidaPorPaciente(dados).then((sucesso) => {
-                console.log(sucesso);
                 if (sucesso) {
                     handleSomar();
                     setSucesso(true);

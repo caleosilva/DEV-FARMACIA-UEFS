@@ -111,7 +111,15 @@ export default function ModalEntradaEstoque({ remedio, listaDD, data, setData }:
             // const dataOperacao = dataHojeFormatada();
             const dataOperacao = new Date().toString();
 
-            const novaQuantidade = remedio.quantidade + parseInt(quantidade);
+            var novaQuantidade = 0;
+
+            if (typeof remedio.quantidade === 'string') {
+                novaQuantidade = parseInt(remedio.quantidade) + parseInt(quantidade);
+            } else {
+                novaQuantidade = remedio.quantidade + parseInt(quantidade);
+            }
+
+            // const novaQuantidade = remedio.quantidade + parseInt(quantidade);
             var chaveDoador = '-';
 
             if (doador != null) {
@@ -129,7 +137,7 @@ export default function ModalEntradaEstoque({ remedio, listaDD, data, setData }:
                 chavePaciente: "-",
                 chaveUsuario: state.chaveUsuario
             }
-
+            
             serverFunctions.atualizarQuantidadeEstoque(remedio, quantidade, true, dadosEstoque).then((sucesso) => {
                 if (sucesso) {
                     // Atualiza a tabela:
