@@ -18,7 +18,8 @@ import {
   formatarData,
   atualizarChavesPrimariaMedicamentos,
   atualizarChavesPrimariaMedicamentoEspecifico,
-  atualizarChavesPrimariaEstoque
+  atualizarChavesPrimariaEstoque,
+  getConfiguracoes
 } from './geral'
 
 // Imports referentes aos Medicamentos:
@@ -60,7 +61,13 @@ import {
 import {
   validarCredenciais,
   alterarSenha
-} from './usuarios.js'
+} from './usuarios.js';
+
+import {
+  relatorioSaldoDeEstoque,
+  relatorioEntradaMedicamento,
+  relatorioSaidaMedicamento
+} from './relatorio.js';
 
 // Public functions must be exported as named exports
 export {
@@ -73,6 +80,7 @@ export {
   atualizarChavesPrimariaMedicamentos,
   atualizarChavesPrimariaMedicamentoEspecifico,
   atualizarChavesPrimariaEstoque,
+  getConfiguracoes,
 
   //Medicamentos
   getMedicamentos,
@@ -105,5 +113,10 @@ export {
 
   //Usuarios
   validarCredenciais,
-  alterarSenha
+  alterarSenha,
+
+  // Relatorio
+  relatorioSaldoDeEstoque,
+  relatorioEntradaMedicamento,
+  relatorioSaidaMedicamento
 };

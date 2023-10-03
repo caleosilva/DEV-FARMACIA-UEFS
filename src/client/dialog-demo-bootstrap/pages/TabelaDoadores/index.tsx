@@ -117,8 +117,8 @@ export default function TabelaDoadores() {
 
     return (
         <section className='margemNavBar ms-5 me-5'>
-            <Card>
-                <Card.Header>
+            <Card style={{ maxHeight: '85vh', overflowY: 'auto' }}>
+                <Card.Header style={{ position: 'sticky', top: '0', backgroundColor: '#f8f8f8', zIndex: '1' }}>
                     <Container fluid>
                         <Row className=''>
                             <Col md={3} className='d-flex justify-content-center align-items-center mb-2 mt-1'>

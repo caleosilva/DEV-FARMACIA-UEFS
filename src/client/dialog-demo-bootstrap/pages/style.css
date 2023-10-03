@@ -1,3 +1,13 @@
 .margemNavBar{
-    margin-top: 100px;
+    margin-top: 100px; /* ou o valor que você precisa */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+body {
+    max-height: calc(100vh - 100px);
+    overflow: hidden;
 }

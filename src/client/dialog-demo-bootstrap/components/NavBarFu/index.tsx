@@ -33,6 +33,9 @@ const NavBarFU = () => {
     label: 'Pacientes',
     to: '/pacientes'
   }, {
+    label: 'Relatórios',
+    to: '/relatorios'
+  }, {
     label: 'Sobre',
     to: '/sobre'
   }, {
@@ -55,18 +58,6 @@ const NavBarFU = () => {
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed='top' className=''>
         <Container fluid>
-          {/* <Navbar.Brand>
-            <Link to={'/home'} style={{ textDecoration: 'none', color: 'white' }}>
-              <img
-                src={imgUrl}
-                width="30"
-                height="30"
-                className="d-inline-block align-top me-2"
-                alt="React Bootstrap logo"
-              />
-              {"Farmácia Universitária"}
-            </Link>
-          </Navbar.Brand> */}
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto" />
@@ -80,12 +71,6 @@ const NavBarFU = () => {
                   </Nav.Link>
                 </Nav.Item>
               ))}
-
-              {/* <Nav.Item className='d-flex align-items-center'>
-                <Link to='/login' className='itemNavbar'>
-                  Sair
-                </Link>
-              </Nav.Item> */}
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -31,6 +31,9 @@ export const getInformacoesSelect = () => {
 
     let identidadeGenero = []
 
+    let opcoesRelatorio = [];
+    let relatorioFiltroEntrada = [];
+    let relatorioFiltroSaida = [];
 
     for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < data[i].length; j++) {
@@ -64,10 +67,16 @@ export const getInformacoesSelect = () => {
                 nivelEscolaridade.push(data[i][j]);
             } else if (data[i][j].length > 0 && j == 14) {
                 identidadeGenero.push(data[i][j]);
+            } else if (data[i][j].length > 0 && j == 15) {
+                opcoesRelatorio.push(data[i][j]);
+            } else if (data[i][j].length > 0 && j == 16) {
+                relatorioFiltroEntrada.push(data[i][j]);
+            } else if (data[i][j].length > 0 && j == 17) {
+                relatorioFiltroSaida.push(data[i][j]);
             }
         }
     }
-    informacoes.push(classes, tiposMedicamentos, tarja, apresentacao, motivoDoacao, origemMedicamento, tipoDoador, sexo, estadoCivil, tipoPaciente, opcaoEntradaMedicamento, opcaoSaidaMedicamento, comoSoube, nivelEscolaridade, identidadeGenero);
+    informacoes.push(classes, tiposMedicamentos, tarja, apresentacao, motivoDoacao, origemMedicamento, tipoDoador, sexo, estadoCivil, tipoPaciente, opcaoEntradaMedicamento, opcaoSaidaMedicamento, comoSoube, nivelEscolaridade, identidadeGenero, opcoesRelatorio, relatorioFiltroEntrada, relatorioFiltroSaida);
 
     return JSON.stringify(informacoes);
 }
@@ -147,6 +156,32 @@ const ordenarPlanilha = (nomeDaAba, colunaBase) => {
     var ws = ss.getSheetByName(nomeDaAba);
     var range = ws.getDataRange().offset(1, 0); // começa na segunda linha
     range.sort(colunaBase);// ordena a faixa de células com base na coluna, Ex: 1 (A)
+}
+
+export const getConfiguracoes = () => {
+    var ss = SpreadsheetApp.openById(idSheet);
+    var ws = ss.getSheetByName("Configuracoes");
+
+    var lr = ws.getLastRow();
+
+    if (lr > 1) {
+        var dataConfig = ws.getRange(2, 1, lr - 1, ws.getLastColumn()).getValues();
+        var informacoes = [];
+
+        if (dataConfig.length > 0) {
+            for (i = 0; i < dataConfig.length; i++) {
+
+                const dadosDict = {
+                    "dataInicial": dataConfig[i][0]
+                }
+                informacoes.push(dadosDict);
+            }
+            return JSON.stringify(informacoes);
+        }
+    } else {
+        return false;
+    }
+    return null
 }
 
 export const atualizarChavesPrimariaMedicamentos = () => {

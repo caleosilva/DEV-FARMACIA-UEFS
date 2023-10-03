@@ -1,0 +1,13 @@
+.buscar{
+    width: 500px;
+}
+
+.noPaddingNoMargin {
+    padding: 0!important;
+    margin: 0!important;
+}
+
+.infoRelatorioAdicional {
+    background-color: #e4e4e4;
+    border-radius: 10px;
+}

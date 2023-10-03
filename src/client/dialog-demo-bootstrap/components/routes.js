@@ -11,6 +11,7 @@ import Sobre from '../pages/Sobre';
 import Login from '../pages/Login';
 import AcessoNegado from '../pages/AcessoNegado';
 import Perfil from '../pages/Perfil';
+import Relatorios from '../pages/Relatorios';
 
 import ProtectedRoute from './ProtectedRoute';
 import UserContext from '../contexts/user/context';
@@ -66,7 +67,7 @@ export default function AppRouter() {
                         <Route path='/doadores' element={<TabelaDoadores />} />
                         <Route path='/pacientes' element={<TabelaPacientes />} />
                         <Route path='/perfil' element={<Perfil />} />
-
+                        <Route path='/relatorios' element={<Relatorios />} />
                         <Route path='/sobre' element={<Sobre />} />
                     </Route>
                 </Routes>

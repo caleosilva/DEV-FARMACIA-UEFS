@@ -172,8 +172,8 @@ export default function TabelaEstoque() {
 
     return (
         <section className='margemNavBar ms-5 me-5'>
-            <Card>
-                <Card.Header>
+            <Card style={{ maxHeight: '85vh', overflowY: 'auto' }}>
+                <Card.Header style={{ position: 'sticky', top: '0', backgroundColor: '#f8f8f8', zIndex: '1' }}>
 
                     <Container fluid>
                         <Row>
